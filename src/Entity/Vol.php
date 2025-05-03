@@ -148,12 +148,12 @@ class Vol
         return $this;
     }
 
-    public function getRefPilote(): ?user
+    public function getRefPilote(): ?User
     {
         return $this->refPilote;
     }
 
-    public function setRefPilote(?user $refPilote): static
+    public function setRefPilote(?User $refPilote): static
     {
         $this->refPilote = $refPilote;
 

@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Avion;
-use App\Entity\Utilisateur;
+use App\Entity\User;
 use App\Entity\Vol;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -26,7 +26,7 @@ class VolTypeForm extends AbstractType
                 'choice_label' => 'id',
             ])
             ->add('refPilote', EntityType::class, [
-                'class' => utilisateur::class,
+                'class' => User::class,
                 'choice_label' => 'id',
             ])
             ->add('submit', SubmitType::class, ['label' => "Enregistrer"])
