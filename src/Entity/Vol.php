@@ -26,6 +26,7 @@ class Vol
     #[ORM\Column(length: 255)]
     private ?string $villeArrive = null;
 
+    #[Assert\GreaterThan('now', message: "La date de départ doit être ultérieure")]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $dateDepart = null;
 
@@ -43,7 +44,6 @@ class Vol
     private Collection $reservations;
 
 
-    #[Assert\GreaterThan('now', message: "L'heure de départ doit être ultérieure")]
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTime $heureDepart = null;
 

@@ -27,7 +27,7 @@ class Conges
     private ?User $refPilote = null;
 
     #[ORM\ManyToOne(inversedBy: 'ValidationAdmin')]
-    private ?user $refValidationAdmin = null;
+    private ?User $refValidationAdmin = null;
 
 
     public function getId(): ?int
@@ -83,12 +83,12 @@ class Conges
         return $this;
     }
 
-    public function getRefValidationAdmin(): ?user
+    public function getRefValidationAdmin(): ?User
     {
         return $this->refValidationAdmin;
     }
 
-    public function setRefValidationAdmin(?user $refValidationAdmin): static
+    public function setRefValidationAdmin(?User $refValidationAdmin): static
     {
         $this->refValidationAdmin = $refValidationAdmin;
 

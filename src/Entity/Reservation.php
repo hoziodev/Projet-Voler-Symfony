@@ -39,12 +39,12 @@ class Reservation
         return $this;
     }
 
-    public function getRefVol(): ?vol
+    public function getRefVol(): ?Vol
     {
         return $this->refVol;
     }
 
-    public function setRefVol(?vol $refVol): static
+    public function setRefVol(?Vol $refVol): static
     {
         $this->refVol = $refVol;
 

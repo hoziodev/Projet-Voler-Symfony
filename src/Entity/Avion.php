@@ -25,7 +25,7 @@ class Avion
     private Collection $vols;
 
     #[ORM\ManyToOne(inversedBy: 'avions')]
-    private ?modele $refModele = null;
+    private ?Modele $refModele = null;
 
     public function __construct()
     {
@@ -79,12 +79,12 @@ class Avion
         return $this;
     }
 
-    public function getRefModele(): ?modele
+    public function getRefModele(): ?Modele
     {
         return $this->refModele;
     }
 
-    public function setRefModele(?modele $refModele): static
+    public function setRefModele(?Modele $refModele): static
     {
         $this->refModele = $refModele;
 
