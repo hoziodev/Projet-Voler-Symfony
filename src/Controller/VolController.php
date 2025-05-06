@@ -3,56 +3,81 @@
 namespace App\Controller;
 
 use App\Entity\Vol;
-use App\Form\VolTypeForm;
+use App\Form\VolForm;
 use App\Repository\VolRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[Route('/vol')]
 final class VolController extends AbstractController
 {
-    #[Route('/vol', name: 'app_vol')]
-    public function index(): Response
+    #[Route(name: 'app_vol_index', methods: ['GET'])]
+    public function index(VolRepository $volRepository): Response
     {
         return $this->render('vol/index.html.twig', [
-            'controller_name' => 'VolController',
-            'message' => 'Bienvenue sur la page vol'
+            'vols' => $volRepository->findAll(),
         ]);
     }
 
-    #[Route('/vol/{id<[0-9]+>}', name: 'vol_detail')]
-    public function detail(int $id): Response
-    {
-        return new Response("Détails du vol numéro : $id");
-    }
-
-    #[Route('/vol/ajout', name: 'ajouter_vol')]
-    public function ajouterVol(\Symfony\Component\HttpFoundation\Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new', name: 'app_vol_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $vol = new Vol();
-        $form = $this->createForm(VolTypeForm::class, $vol);
+        $form = $this->createForm(VolForm::class, $vol);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($vol);
             $entityManager->flush();
 
-            return $this->redirectToRoute('liste_vols');
+            return $this->redirectToRoute('app_vol_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('vol/ajout.html.twig', [
-            'form' => $form->createView(),
+        return $this->render('vol/new.html.twig', [
+            'vol' => $vol,
+            'form' => $form,
         ]);
-
     }
 
-    #[Route('/vols', name: 'liste_vols')]
-    public function listeVols(VolRepository $volRepository): Response
+    #[Route('/{id}', name: 'app_vol_show', methods: ['GET'])]
+    public function show(Vol $vol): Response
     {
-        $vols = $volRepository->findAll();
-        return $this->render('vol/liste.html.twig', ['vols' => $vols]);
+        return $this->render('vol/show.html.twig', [
+            'vol' => $vol,
+        ]);
     }
 
+    #[Route('/{id}/edit', name: 'app_vol_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Vol $vol, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(VolForm::class, $vol);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_vol_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('vol/edit.html.twig', [
+            'vol' => $vol,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_vol_delete', methods: ['POST'])]
+    public function delete(Request $request, Vol $vol, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$vol->getId(), $request->getPayload()->getString('_token'))) {
+            $entityManager->remove($vol);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_vol_index', [], Response::HTTP_SEE_OTHER);
+    }
 }
