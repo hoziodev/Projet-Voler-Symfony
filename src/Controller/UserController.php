@@ -24,7 +24,7 @@ final class UserController extends AbstractController
     }
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_ADMIN')]
+    //#[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -79,5 +79,9 @@ final class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    public function createQueryBuilder(string $string)
+    {
     }
 }

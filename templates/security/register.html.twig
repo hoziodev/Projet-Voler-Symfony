@@ -33,7 +33,7 @@
                                         <p class="mb-0">Already a member?<a href="{{ path('app_login') }}"> Log in</a></p>
                                         {{ form_start(form) }}
                                         <!-- Form START -->
-                                        <form class="mt-4 text-start">
+                                        <div class="mt-4 text-start">
                                             <!-- Email -->
                                             <div class="mb-3">
                                                 {{ form_label(form.email) }}
@@ -62,15 +62,10 @@
                                                 {{ form_label(form.ville) }}
                                                 {{ form_widget(form.ville) }}
                                             </div>
-                                            <!-- Remember me -->
-                                            <div class="mb-3">
-                                                <input type="checkbox" class="form-check-input" id="rememberCheck">
-                                                <label class="form-check-label" for="rememberCheck">Keep me signed in</label>
-                                            </div>
                                             <!-- Button -->
-                                            <div><button type="submit" class="btn btn-primary w-100 mb-0">Sign up</button></div>
+                                            <div><button type="submit" class="btn btn-primary w-100 mb-0">{{ button_label | default('Sign Up') }}</button></div>
 
-                                        </form>
+                                        </div>
                                         <!-- Form END -->
                                         {{ form_end(form) }}
                                     </div>

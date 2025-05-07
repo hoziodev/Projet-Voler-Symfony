@@ -2,9 +2,12 @@
 
 namespace App\Form;
 
+use App\Controller\UserController;
 use App\Entity\Avion;
 use App\Entity\User;
 use App\Entity\Vol;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,11 +25,15 @@ class VolForm extends AbstractType
             ->add('heureDepart')
             ->add('refAvion', EntityType::class, [
                 'class' => Avion::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nom',
             ])
             ->add('refPilote', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
+                    "class" => User::class,
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('u')
+                            ->where('u.roles LIKE :roles')
+                            ->setparameter('roles', '%"ROLE_PILOTE"%');
+                    },
             ])
         ;
     }

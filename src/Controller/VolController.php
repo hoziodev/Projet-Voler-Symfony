@@ -24,7 +24,6 @@ final class VolController extends AbstractController
     }
 
     #[Route('/new', name: 'app_vol_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $vol = new Vol();

@@ -6,6 +6,7 @@ use App\Entity\Modele;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,15 +16,21 @@ class UserForm extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('roles')
-            ->add('password')
+            ->add('roles',ChoiceType::class, [
+                'multiple' => true,
+                'expanded' => true,
+                'choices'  => [
+                    'Admin' => 'ROLE_ADMIN',
+                    'Pilote' => 'ROLE_PILOTE',
+                ]
+            ])
             ->add('nom')
             ->add('prenom')
             ->add('dateNaissance')
             ->add('ville')
             ->add('refModele', EntityType::class, [
                 'class' => Modele::class,
-                'choice_label' => 'id',
+                'choice_label' => 'modele',
             ])
         ;
     }
