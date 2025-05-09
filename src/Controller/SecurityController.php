@@ -40,9 +40,9 @@ final class SecurityController extends AbstractController
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
+         if ($this->getUser()) {
+             return $this->redirectToRoute('app_index');
+         }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -52,6 +52,27 @@ final class SecurityController extends AbstractController
 
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+    }
+
+    #[Route(path: '/forgotpassword', name: 'app_forgotpassword')]
+    public function login2(Request $request): Response
+    {
+        $user = new User();
+        $form = $this->createForm(UserTypeForm::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $mail = $form->get('email')->getData();
+
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('security/forgotpassword.html.twig', [
+            'form' => $form->createView(),
+        ]);
+        // if ($this->getUser()) {
+        //     return $this->redirectToRoute('target_path');
+        // }
     }
 
     #[Route(path: '/logout', name: 'app_logout')]

@@ -14,13 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/conges')]
 final class CongesController extends AbstractController
 {
-    #[Route(name: 'app_conges_index', methods: ['GET'])]
-    public function index(CongesRepository $congesRepository): Response
-    {
-        return $this->render('conges/index.html.twig', [
-            'conges' => $congesRepository->findAll(),
-        ]);
-    }
+
 
     #[Route('/new', name: 'app_conges_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response

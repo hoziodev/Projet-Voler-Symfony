@@ -3,9 +3,23 @@
 {% block title %}New Reservation{% endblock %}
 
 {% block body %}
-    <h1>Create new Reservation</h1>
+    <h1>Reserver</h1>
 
-    {{ include('reservation/_form.html.twig') }}
+    {{ form_start(form) }}
 
-    <a href="{{ path('app_reservation_index') }}">back to list</a>
+    <tr>
+        <td>{{ vol.villeDepart }}</td>
+        <td>{{ vol.villeArrive }}</td>
+        <td>{{ vol.dateDepart ? vol.dateDepart|date('Y-m-d') : '' }}</td>
+        <td>{{ vol.prixBilletInitiale }}</td>
+        <td>{{ vol.heureDepart ? vol.heureDepart|date('H:i:s') : '' }}</td>
+        <td>{{ reservation.prixBillet }} €</td>
+    </tr>
+
+
+
+
+    <button class="btn">{{ button_label|default('Reserver') }}</button>
+
+    {{ form_end(form) }}
 {% endblock %}

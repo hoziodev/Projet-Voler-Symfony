@@ -17,7 +17,7 @@ class Reservation
     private ?float $prixBillet = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
-    private ?vol $refVol = null;
+    private ?Vol $refVol = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     private ?User $refUser = null;

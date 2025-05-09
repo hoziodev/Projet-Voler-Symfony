@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Reservation;
+use App\Entity\Vol;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,4 +41,25 @@ class ReservationRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function ajustementPrixBillet(Reservation $reservation , Vol $vol): void
+    {
+        $date = $reservation -> getRefVol() ->getDateDepart() ;
+        $now = new \DateTime();
+        $prix = $vol->getPrixBilletInitiale();
+        $joursRestants = $date->diff($now);
+        $joursRestants = $joursRestants->days;
+        if($joursRestants <= 2){
+            $reservation ->setPrixBillet($prix *1.5);
+        }
+        else if($joursRestants <= 10){
+            $reservation ->setPrixBillet($prix *1.25);
+        }
+        else if ($joursRestants <=20){
+            $reservation ->setPrixBillet($prix *1.10);
+        }
+        else {
+            $reservation ->setPrixBillet($prix *1.05);
+        }
+    }
 }
