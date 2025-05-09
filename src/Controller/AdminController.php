@@ -17,6 +17,7 @@ use App\Repository\ReservationRepository;
 use App\Repository\UserRepository;
 use App\Repository\VolRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use http\Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,9 +25,10 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin')]
-#[IsGranted('ROLE_ADMIN')]
+#[IsGranted('ROLE_ADMIN', message: "get out")]
 final class AdminController extends AbstractController
 {
+
     #[Route('/', name: 'app_admin')]
     public function index(): Response
     {
